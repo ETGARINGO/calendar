@@ -4,802 +4,711 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width,
-                   initial-scale=1.0,
-                   maximum-scale=1.0,
-                   user-scalable=no,
-                   viewport-fit=cover">
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no,
+               viewport-fit=cover">
 
-    <title>Calendar of Activities - Monitoring Portal</title>
+<title>Calendar of Activities - Monitoring Portal</title>
 
-    <style>
+<style>
 
-        /* =========================================================
-           RESET
-        ========================================================= */
+/* =========================================================
+   RESET
+========================================================= */
 
-        * {
-            box-sizing: border-box;
-        }
+* {
+    box-sizing: border-box;
+}
 
-        html,
-        body {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 
-            overflow: hidden;
+    overflow: hidden;
 
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 
-            background: #eef1f5;
+    background: #eef2f6;
 
-            -webkit-text-size-adjust: 100%;
-        }
+    -webkit-text-size-adjust: 100%;
+}
 
 
-        /* =========================================================
-           MAIN APPLICATION
-        ========================================================= */
+/* =========================================================
+   MAIN APPLICATION
+========================================================= */
 
-        .app {
+.app {
 
-            width: 100%;
-            height: 100dvh;
-            min-height: 100vh;
+    width: 100%;
+    height: 100dvh;
+    min-height: 100vh;
 
-            display: flex;
-            flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-            background: #ffffff;
+    background: #ffffff;
 
-        }
+}
 
 
-        /* =========================================================
-           HEADER
-        ========================================================= */
+/* =========================================================
+   HEADER
+========================================================= */
 
-        .header {
+.header {
 
-            width: 100%;
-            height: 72px;
-            min-height: 72px;
+    width: 100%;
+    height: 70px;
+    min-height: 70px;
 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-            padding:
-                8px
-                16px
-                8px
-                max(16px, env(safe-area-inset-left));
+    padding:
+        8px 16px;
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #102a43,
-                    #173f67
-                );
+    background:
+        linear-gradient(
+            135deg,
+            #102a43,
+            #174a78
+        );
 
-            color: #ffffff;
+    color: #ffffff;
 
-            box-shadow:
-                0 2px 10px rgba(0,0,0,.25);
+    box-shadow:
+        0 2px 10px rgba(0,0,0,.25);
 
-            position: relative;
+    position: relative;
 
-            z-index: 100;
+    z-index: 100;
 
-        }
+}
 
 
-        /* =========================================================
-           BRAND AREA
-        ========================================================= */
+/* =========================================================
+   BRAND
+========================================================= */
 
-        .brand {
+.brand {
 
-            display: flex;
-            align-items: center;
+    display: flex;
+    align-items: center;
 
-            gap: 12px;
+    gap: 12px;
 
-            min-width: 0;
+    min-width: 0;
 
-        }
+}
 
 
-        /* =========================================================
-           LIVE PAGE PREVIEW
-        ========================================================= */
+/* =========================================================
+   CALENDAR LOGO
+========================================================= */
 
-        .live-preview {
+.calendar-logo {
 
-            position: relative;
+    width: 50px;
+    height: 50px;
 
-            width: 58px;
-            height: 50px;
+    flex-shrink: 0;
 
-            flex-shrink: 0;
+    position: relative;
 
-            overflow: hidden;
+    border-radius: 9px;
 
-            border-radius: 7px;
+    background: #ffffff;
 
-            background: #ffffff;
+    box-shadow:
+        0 3px 8px rgba(0,0,0,.30);
 
-            border:
-                2px solid
-                rgba(255,255,255,.8);
+    overflow: hidden;
 
-            box-shadow:
-                0 2px 7px rgba(0,0,0,.35);
+}
 
-            cursor: pointer;
 
-        }
+/* Calendar top bar */
 
+.calendar-logo::before {
 
-        /*
-           This iframe uses the SAME source as
-           the main Calendar iframe.
+    content: "";
 
-           It becomes a miniature live preview
-           of the actual Calendar page.
-        */
+    position: absolute;
 
-        .live-preview iframe {
+    left: 0;
+    top: 0;
 
-            position: absolute;
+    width: 100%;
+    height: 14px;
 
-            top: 0;
-            left: 0;
+    background: #d64545;
 
-            width: 1000px;
-            height: 700px;
+}
 
-            border: 0;
 
-            transform:
-                scale(.058);
+/* Calendar binding rings */
 
-            transform-origin:
-                top left;
+.calendar-logo::after {
 
-            pointer-events: none;
+    content: "••";
 
-        }
+    position: absolute;
 
+    left: 0;
+    right: 0;
+    top: 1px;
 
-        /* =========================================================
-           LIVE INDICATOR
-        ========================================================= */
+    text-align: center;
 
-        .live-indicator {
+    color: #ffffff;
 
-            position: absolute;
+    font-size: 13px;
 
-            right: 3px;
-            bottom: 3px;
+    letter-spacing: 17px;
 
-            display: flex;
-            align-items: center;
+}
 
-            gap: 3px;
 
-            padding:
-                2px
-                4px;
+/* =========================================================
+   CALENDAR LOGO CONTENT
+========================================================= */
 
-            border-radius: 3px;
+.calendar-logo-content {
 
-            background: #c62828;
+    position: absolute;
 
-            color: #ffffff;
+    left: 5px;
+    right: 5px;
 
-            font-size: 7px;
-            font-weight: 800;
+    top: 18px;
+    bottom: 5px;
 
-            letter-spacing: .3px;
+    display: grid;
 
-            box-shadow:
-                0 1px 3px rgba(0,0,0,.3);
+    grid-template-columns:
+        repeat(3, 1fr);
 
-        }
+    grid-template-rows:
+        repeat(2, 1fr);
 
+    gap: 3px;
 
-        .live-dot {
+}
 
-            width: 5px;
-            height: 5px;
 
-            border-radius: 50%;
+/* Calendar squares */
 
-            background: #ffffff;
+.calendar-square {
 
-            animation:
-                livePulse 1.2s infinite;
+    display: flex;
 
-        }
+    align-items: center;
+    justify-content: center;
 
+    border-radius: 2px;
 
-        @keyframes livePulse {
+    background: #e9f0f7;
 
-            0% {
-                opacity: 1;
-                transform: scale(1);
-            }
+    color: #173f67;
 
-            50% {
-                opacity: .35;
-                transform: scale(.7);
-            }
+    font-size: 7px;
 
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
+    font-weight: 800;
 
-        }
+}
 
 
-        /* =========================================================
-           BRAND TEXT
-        ========================================================= */
+/* Highlight */
 
-        .brand-text {
+.calendar-square.active {
 
-            min-width: 0;
+    background: #173f67;
 
-        }
+    color: #ffffff;
 
+}
 
-        .brand-title {
 
-            font-size: 17px;
+/* =========================================================
+   BRAND TEXT
+========================================================= */
 
-            font-weight: 800;
+.brand-text {
 
-            line-height: 1.15;
+    min-width: 0;
 
-            letter-spacing: .2px;
+}
 
-            white-space: nowrap;
 
-            overflow: hidden;
+.brand-title {
 
-            text-overflow: ellipsis;
+    font-size: 17px;
 
-        }
+    font-weight: 800;
 
+    line-height: 1.1;
 
-        .brand-subtitle {
+    letter-spacing: .2px;
 
-            margin-top: 4px;
+    white-space: nowrap;
 
-            font-size: 11px;
+    overflow: hidden;
 
-            font-weight: 400;
+    text-overflow: ellipsis;
 
-            opacity: .78;
+}
 
-            white-space: nowrap;
 
-            overflow: hidden;
+.brand-subtitle {
 
-            text-overflow: ellipsis;
+    margin-top: 5px;
 
-        }
+    font-size: 11px;
 
+    opacity: .78;
 
-        /* =========================================================
-           HEADER BUTTONS
-        ========================================================= */
+    white-space: nowrap;
 
-        .header-actions {
+    overflow: hidden;
 
-            display: flex;
+    text-overflow: ellipsis;
 
-            align-items: center;
+}
 
-            gap: 7px;
 
-            flex-shrink: 0;
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
 
-        }
+.header-actions {
 
+    display: flex;
 
-        .header-btn {
+    align-items: center;
 
-            height: 40px;
+    gap: 7px;
 
-            min-width: 40px;
+    flex-shrink: 0;
 
-            border: 0;
+}
 
-            border-radius: 6px;
 
-            background:
-                rgba(255,255,255,.12);
+.header-btn {
 
-            color: #ffffff;
+    height: 40px;
 
-            cursor: pointer;
+    min-width: 40px;
 
-            display: flex;
+    padding:
+        0 12px;
 
-            align-items: center;
+    border: none;
 
-            justify-content: center;
+    border-radius: 6px;
 
-            padding:
-                0 12px;
+    background:
+        rgba(255,255,255,.12);
 
-            font-size: 12px;
+    color: #ffffff;
 
-            font-weight: 700;
+    cursor: pointer;
 
-            transition:
-                background .2s ease,
-                transform .2s ease;
+    display: flex;
 
-        }
+    align-items: center;
 
+    justify-content: center;
 
-        .header-btn:hover {
+    font-size: 12px;
 
-            background: #e67e22;
+    font-weight: 700;
 
-            transform:
-                translateY(-1px);
+    transition:
+        background .2s ease,
+        transform .2s ease;
 
-        }
+}
 
 
-        .header-btn:active {
+.header-btn:hover {
 
-            transform:
-                scale(.95);
+    background: #e67e22;
 
-        }
+}
 
 
-        .icon {
+.header-btn:active {
 
-            font-size: 19px;
+    transform:
+        scale(.95);
 
-            line-height: 1;
+}
 
-        }
 
+.icon {
 
-        .button-text {
+    font-size: 19px;
 
-            margin-left: 6px;
+    line-height: 1;
 
-        }
+}
 
 
-        /* =========================================================
-           CALENDAR CONTAINER
-        ========================================================= */
+.button-text {
 
-        .calendar-container {
+    margin-left: 6px;
 
-            position: relative;
+}
 
-            flex: 1;
 
-            width: 100%;
+/* =========================================================
+   CALENDAR CONTENT
+========================================================= */
 
-            min-height: 0;
+.calendar-container {
 
-            background: #f5f7fa;
+    position: relative;
 
-        }
+    flex: 1;
 
+    width: 100%;
 
-        /* =========================================================
-           MAIN CALENDAR IFRAME
-        ========================================================= */
+    min-height: 0;
 
-        #calendarFrame {
+    background: #f4f6f8;
 
-            width: 100%;
+}
 
-            height: 100%;
 
-            border: none;
+/* =========================================================
+   MAIN CALENDAR
+========================================================= */
 
-            display: block;
+#calendarFrame {
 
-            background: #ffffff;
+    width: 100%;
+    height: 100%;
 
-        }
+    display: block;
 
+    border: none;
 
-        /* =========================================================
-           LOADING SCREEN
-        ========================================================= */
+    background: #ffffff;
 
-        .loading {
+}
 
-            position: absolute;
 
-            inset: 0;
+/* =========================================================
+   LOADING SCREEN
+========================================================= */
 
-            z-index: 20;
+.loading {
 
-            display: flex;
+    position: absolute;
 
-            flex-direction: column;
+    inset: 0;
 
-            align-items: center;
+    z-index: 20;
 
-            justify-content: center;
+    display: flex;
 
-            background:
-                #f5f7fa;
+    flex-direction: column;
 
-            color:
-                #173f67;
+    align-items: center;
 
-            transition:
-                opacity .35s ease;
+    justify-content: center;
 
-        }
+    background: #f4f6f8;
 
+    color: #173f67;
 
-        .loading.hidden {
+    transition:
+        opacity .3s ease;
 
-            opacity: 0;
+}
 
-            pointer-events: none;
 
-        }
+.loading.hidden {
 
+    opacity: 0;
 
-        .loading-preview {
+    pointer-events: none;
 
-            width: 100px;
-            height: 70px;
+}
 
-            position: relative;
 
-            overflow: hidden;
+/* Loading calendar logo */
 
-            border-radius: 8px;
+.loading-calendar-logo {
 
-            background: #ffffff;
+    width: 75px;
 
-            border:
-                1px solid #d7dde5;
+    height: 75px;
 
-            box-shadow:
-                0 3px 12px rgba(0,0,0,.15);
+    position: relative;
 
-            margin-bottom: 16px;
+    border-radius: 12px;
 
-        }
+    background: #ffffff;
 
+    box-shadow:
+        0 4px 15px rgba(0,0,0,.15);
 
-        .loading-preview iframe {
+    overflow: hidden;
 
-            position: absolute;
+    margin-bottom: 17px;
 
-            top: 0;
-            left: 0;
+}
 
-            width: 1000px;
-            height: 700px;
 
-            border: 0;
+.loading-calendar-logo-top {
 
-            transform:
-                scale(.1);
+    height: 20px;
 
-            transform-origin:
-                top left;
+    width: 100%;
 
-            pointer-events: none;
+    background: #d64545;
 
-        }
+}
 
 
-        .loading-title {
+.loading-calendar-grid {
 
-            font-size: 16px;
+    position: absolute;
 
-            font-weight: 800;
+    left: 9px;
+    right: 9px;
+    top: 29px;
+    bottom: 9px;
 
-        }
+    display: grid;
 
+    grid-template-columns:
+        repeat(3, 1fr);
 
-        .loading-text {
+    grid-template-rows:
+        repeat(2, 1fr);
 
-            margin-top: 5px;
+    gap: 5px;
 
-            color: #6b7280;
+}
 
-            font-size: 12px;
 
-        }
+.loading-calendar-cell {
 
+    background: #e7edf4;
 
-        .spinner {
+    border-radius: 3px;
 
-            width: 30px;
+}
 
-            height: 30px;
 
-            margin-top: 17px;
+.loading-title {
 
-            border:
-                3px solid #dce2e8;
+    font-size: 16px;
 
-            border-top-color:
-                #173f67;
+    font-weight: 800;
 
-            border-radius: 50%;
+}
 
-            animation:
-                spin .8s linear infinite;
 
-        }
+.loading-text {
 
+    margin-top: 5px;
 
-        @keyframes spin {
+    font-size: 12px;
 
-            to {
-                transform:
-                    rotate(360deg);
-            }
+    color: #667085;
 
-        }
+}
 
 
-        /* =========================================================
-           ERROR / FALLBACK
-        ========================================================= */
+.spinner {
 
-        .fallback {
+    width: 30px;
 
-            display: none;
+    height: 30px;
 
-            position: absolute;
+    margin-top: 17px;
 
-            inset: 0;
+    border:
+        3px solid #dce3ea;
 
-            z-index: 30;
+    border-top-color:
+        #173f67;
 
-            align-items: center;
+    border-radius: 50%;
 
-            justify-content: center;
+    animation:
+        spin .8s linear infinite;
 
-            text-align: center;
+}
 
-            padding: 30px;
 
-            background: #f5f7fa;
+@keyframes spin {
 
-        }
+    to {
+        transform: rotate(360deg);
+    }
 
+}
 
-        .fallback-box {
 
-            max-width: 420px;
+/* =========================================================
+   FULLSCREEN
+========================================================= */
 
-            padding: 25px;
+.app:fullscreen .header {
 
-            border-radius: 10px;
+    display: none;
 
-            background: #ffffff;
+}
 
-            box-shadow:
-                0 4px 20px rgba(0,0,0,.12);
 
-        }
+.app:-webkit-full-screen .header {
 
+    display: none;
 
-        .fallback-title {
+}
 
-            font-size: 18px;
 
-            font-weight: 800;
+/* =========================================================
+   MOBILE
+========================================================= */
 
-            color: #173f67;
+@media (max-width: 600px) {
 
-        }
+    .header {
 
+        height: 60px;
 
-        .fallback-text {
+        min-height: 60px;
 
-            margin-top: 8px;
+        padding:
+            6px 10px;
 
-            font-size: 13px;
+    }
 
-            line-height: 1.5;
 
-            color: #667085;
+    .calendar-logo {
 
-        }
+        width: 43px;
 
+        height: 43px;
 
-        .fallback-btn {
+    }
 
-            margin-top: 18px;
 
-            border: 0;
+    .calendar-logo::before {
 
-            border-radius: 6px;
+        height: 12px;
 
-            padding:
-                11px
-                18px;
+    }
 
-            background: #173f67;
 
-            color: #ffffff;
+    .calendar-logo-content {
 
-            font-weight: 700;
+        top: 16px;
 
-            cursor: pointer;
+    }
 
-        }
 
+    .brand {
 
-        /* =========================================================
-           FULLSCREEN
-        ========================================================= */
+        gap: 9px;
 
-        .app:fullscreen .header {
+    }
 
-            display: none;
 
-        }
+    .brand-title {
 
+        font-size: 13px;
 
-        .app:-webkit-full-screen .header {
+    }
 
-            display: none;
 
-        }
+    .brand-subtitle {
 
+        font-size: 9px;
 
-        /* =========================================================
-           MOBILE
-        ========================================================= */
+        margin-top: 3px;
 
-        @media (max-width: 600px) {
+    }
 
-            .header {
 
-                height: 60px;
+    .header-btn {
 
-                min-height: 60px;
+        width: 38px;
 
-                padding:
-                    6px
-                    10px;
+        min-width: 38px;
 
-            }
+        height: 38px;
 
+        padding: 0;
 
-            .live-preview {
+    }
 
-                width: 48px;
 
-                height: 42px;
+    .button-text {
 
-            }
+        display: none;
 
+    }
 
-            .live-preview iframe {
 
-                transform:
-                    scale(.048);
+    .icon {
 
-            }
+        font-size: 18px;
 
+    }
 
-            .brand {
+}
 
-                gap: 9px;
 
-            }
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
 
+@media (max-width: 380px) {
 
-            .brand-title {
+    .brand-subtitle {
 
-                font-size: 13px;
+        display: none;
 
-            }
+    }
 
 
-            .brand-subtitle {
+    .brand-title {
 
-                font-size: 9px;
+        font-size: 12px;
 
-            }
+    }
 
 
-            .header-btn {
+    .calendar-logo {
 
-                width: 38px;
+        width: 40px;
 
-                min-width: 38px;
+        height: 40px;
 
-                height: 38px;
+    }
 
-                padding: 0;
+}
 
-            }
-
-
-            .button-text {
-
-                display: none;
-
-            }
-
-
-            .icon {
-
-                font-size: 18px;
-
-            }
-
-        }
-
-
-        /* =========================================================
-           SMALL MOBILE
-        ========================================================= */
-
-        @media (max-width: 380px) {
-
-            .brand-subtitle {
-
-                display: none;
-
-            }
-
-
-            .brand-title {
-
-                font-size: 12px;
-
-            }
-
-
-            .live-preview {
-
-                width: 42px;
-
-                height: 38px;
-
-            }
-
-
-            .live-preview iframe {
-
-                transform:
-                    scale(.042);
-
-            }
-
-        }
-
-    </style>
+</style>
 
 </head>
 
@@ -810,51 +719,63 @@
 <div class="app" id="app">
 
 
-    <!-- =========================================================
+    <!-- =====================================================
          HEADER
-    ========================================================== -->
+    ====================================================== -->
 
     <header class="header">
 
 
-        <!-- BRAND -->
+        <!-- =================================================
+             CALENDAR LOGO
+
+             This is a REAL HTML/CSS logo.
+
+             It does NOT contain:
+             - iframe
+             - src URL
+             - external image
+             - clickable link
+        ================================================== -->
 
         <div class="brand">
 
 
-            <!-- =================================================
-                 LIVE LOGO / LIVE PAGE PREVIEW
-
-                 This is NOT a fixed image.
-
-                 It displays the actual content of CALENDAR_URL.
-            ================================================== -->
-
             <div
-                class="live-preview"
-                onclick="openCalendar()"
-                title="Open Live Calendar"
+                class="calendar-logo"
+                aria-label="Calendar of Activities"
             >
 
-                <iframe
-                    id="livePreview"
-                    title="Live Calendar Preview"
-                    loading="eager">
-                </iframe>
+                <div class="calendar-logo-content">
 
+                    <div class="calendar-square">
+                        1
+                    </div>
 
-                <div class="live-indicator">
+                    <div class="calendar-square">
+                        2
+                    </div>
 
-                    <span class="live-dot"></span>
+                    <div class="calendar-square active">
+                        3
+                    </div>
 
-                    LIVE
+                    <div class="calendar-square">
+                        4
+                    </div>
+
+                    <div class="calendar-square">
+                        5
+                    </div>
+
+                    <div class="calendar-square">
+                        6
+                    </div>
 
                 </div>
 
             </div>
 
-
-            <!-- BRAND TEXT -->
 
             <div class="brand-text">
 
@@ -877,57 +798,31 @@
         </div>
 
 
-        <!-- =====================================================
-             ACTION BUTTONS
-        ====================================================== -->
+        <!-- =================================================
+             ACTIONS
+        ================================================== -->
 
         <div class="header-actions">
 
 
-            <!-- OPEN -->
-
-            <button
-                class="header-btn"
-                onclick="openCalendar()"
-                title="Open Calendar"
-            >
-
-                <span class="icon">
-
-                    ↗
-
-                </span>
-
-                <span class="button-text">
-
-                    OPEN
-
-                </span>
-
-            </button>
-
-
-            <!-- FULLSCREEN -->
+            <!-- FULLSCREEN ONLY -->
 
             <button
                 class="header-btn"
                 onclick="toggleFullscreen()"
                 title="Fullscreen"
+                aria-label="Fullscreen"
             >
 
                 <span
                     class="icon"
                     id="fullscreenIcon"
                 >
-
                     ⛶
-
                 </span>
 
                 <span class="button-text">
-
                     FULLSCREEN
-
                 </span>
 
             </button>
@@ -939,9 +834,9 @@
     </header>
 
 
-    <!-- =========================================================
-         CALENDAR AREA
-    ========================================================== -->
+    <!-- =====================================================
+         CALENDAR
+    ====================================================== -->
 
     <main class="calendar-container">
 
@@ -953,12 +848,29 @@
             id="loading"
         >
 
-            <div class="loading-preview">
 
-                <iframe
-                    id="loadingPreview"
-                    title="Loading Calendar Preview">
-                </iframe>
+            <div class="loading-calendar-logo">
+
+                <div
+                    class="loading-calendar-logo-top">
+                </div>
+
+
+                <div class="loading-calendar-grid">
+
+                    <div class="loading-calendar-cell"></div>
+
+                    <div class="loading-calendar-cell"></div>
+
+                    <div class="loading-calendar-cell"></div>
+
+                    <div class="loading-calendar-cell"></div>
+
+                    <div class="loading-calendar-cell"></div>
+
+                    <div class="loading-calendar-cell"></div>
+
+                </div>
 
             </div>
 
@@ -972,84 +884,40 @@
 
             <div class="loading-text">
 
-                Connecting to the live calendar...
+                Please wait...
 
             </div>
 
 
             <div class="spinner"></div>
 
+
         </div>
 
 
-        <!-- =====================================================
-             MAIN LIVE CALENDAR
-        ====================================================== -->
+        <!-- =================================================
+             MAIN CALENDAR IFRAME
+
+             The source is used ONLY here.
+
+             It is NOT placed inside the logo.
+             It is NOT clickable through the logo.
+        ================================================== -->
 
         <iframe
-
             id="calendarFrame"
 
             title="Calendar of Activities"
 
             allow="
                 fullscreen;
-                accelerometer;
-                autoplay;
-                clipboard-write;
-                encrypted-media;
-                gyroscope;
-                picture-in-picture
+                clipboard-write
             "
 
             allowfullscreen
 
             loading="eager">
-
         </iframe>
-
-
-        <!-- =====================================================
-             FALLBACK
-        ====================================================== -->
-
-        <div
-            class="fallback"
-            id="fallback"
-        >
-
-            <div class="fallback-box">
-
-
-                <div class="fallback-title">
-
-                    Calendar Could Not Be Embedded
-
-                </div>
-
-
-                <div class="fallback-text">
-
-                    The live Calendar page may be blocking
-                    embedded viewing. You can open the
-                    Calendar directly in a new browser tab.
-
-                </div>
-
-
-                <button
-                    class="fallback-btn"
-                    onclick="openCalendar()"
-                >
-
-                    OPEN CALENDAR
-
-                </button>
-
-
-            </div>
-
-        </div>
 
 
     </main>
@@ -1060,304 +928,192 @@
 
 <script>
 
+/* =========================================================
+   CALENDAR SOURCE
+========================================================= */
 
-    /* =========================================================
-       LIVE CALENDAR SOURCE
-
-       Change ONLY this URL if your Calendar deployment changes.
-    ========================================================== */
-
-    const CALENDAR_URL =
-        "https://script.google.com/macros/s/AKfycbz4aPCijq1ke_xNN1hr35SpJFVcPmoDh1p77SB4L1hhV5YWf36zHXksU3M1127-sOIc/exec?page=calendar";
+const CALENDAR_URL =
+    "https://script.google.com/macros/s/AKfycbz4aPCijq1ke_xNN1hr35SpJFVcPmoDh1p77SB4L1hhV5YWf36zHXksU3M1127-sOIc/exec?page=calendar";
 
 
-    /* =========================================================
-       ELEMENTS
-    ========================================================== */
+/* =========================================================
+   ELEMENTS
+========================================================= */
 
-    const app =
-        document.getElementById("app");
+const app =
+    document.getElementById("app");
 
+const calendarFrame =
+    document.getElementById("calendarFrame");
 
-    const calendarFrame =
-        document.getElementById("calendarFrame");
+const loading =
+    document.getElementById("loading");
 
-
-    const livePreview =
-        document.getElementById("livePreview");
-
-
-    const loadingPreview =
-        document.getElementById("loadingPreview");
+const fullscreenIcon =
+    document.getElementById("fullscreenIcon");
 
 
-    const loading =
-        document.getElementById("loading");
+/* =========================================================
+   LOAD CALENDAR
+========================================================= */
+
+calendarFrame.src =
+    CALENDAR_URL;
 
 
-    const fallback =
-        document.getElementById("fallback");
+/* =========================================================
+   CALENDAR LOADED
+========================================================= */
 
+calendarFrame.addEventListener(
+    "load",
+    function() {
 
-    const fullscreenIcon =
-        document.getElementById("fullscreenIcon");
+        setTimeout(
+            function() {
 
+                loading.classList.add(
+                    "hidden"
+                );
 
-    /* =========================================================
-       SET LIVE SOURCES
-    ========================================================== */
-
-    calendarFrame.src =
-        CALENDAR_URL;
-
-
-    livePreview.src =
-        CALENDAR_URL;
-
-
-    loadingPreview.src =
-        CALENDAR_URL;
-
-
-    /* =========================================================
-       MAIN CALENDAR LOADED
-    ========================================================== */
-
-    let calendarLoaded = false;
-
-
-    calendarFrame.addEventListener(
-        "load",
-        function () {
-
-            calendarLoaded = true;
-
-            setTimeout(
-                function () {
-
-                    loading.classList.add("hidden");
-
-                },
-                400
-            );
-
-        }
-    );
-
-
-    /* =========================================================
-       OPEN CALENDAR
-    ========================================================== */
-
-    function openCalendar() {
-
-        window.open(
-            CALENDAR_URL,
-            "_blank",
-            "noopener,noreferrer"
+            },
+            400
         );
 
     }
+);
 
 
-    /* =========================================================
-       FULLSCREEN
-    ========================================================== */
+/* =========================================================
+   FULLSCREEN
+========================================================= */
 
-    async function toggleFullscreen() {
+async function toggleFullscreen() {
 
-        const isFullscreen =
-            document.fullscreenElement ||
-            document.webkitFullscreenElement;
-
-
-        try {
+    const isFullscreen =
+        document.fullscreenElement ||
+        document.webkitFullscreenElement;
 
 
-            if (!isFullscreen) {
+    try {
+
+        if (!isFullscreen) {
 
 
-                if (
-                    app.requestFullscreen
-                ) {
+            if (
+                app.requestFullscreen
+            ) {
 
-                    await app.requestFullscreen();
-
-                }
-
-
-                else if (
-                    app.webkitRequestFullscreen
-                ) {
-
-                    app.webkitRequestFullscreen();
-
-                }
-
+                await app.requestFullscreen();
 
             }
 
 
-            else {
+            else if (
+                app.webkitRequestFullscreen
+            ) {
 
-
-                if (
-                    document.exitFullscreen
-                ) {
-
-                    await document.exitFullscreen();
-
-                }
-
-
-                else if (
-                    document.webkitExitFullscreen
-                ) {
-
-                    document.webkitExitFullscreen();
-
-                }
+                app.webkitRequestFullscreen();
 
             }
 
-
-        }
-
-        catch (error) {
-
-            console.log(
-                "Fullscreen error:",
-                error
-            );
-
-        }
-
-    }
-
-
-    /* =========================================================
-       FULLSCREEN ICON
-    ========================================================== */
-
-    function updateFullscreenIcon() {
-
-        const isFullscreen =
-            document.fullscreenElement ||
-            document.webkitFullscreenElement;
-
-
-        if (isFullscreen) {
-
-            fullscreenIcon.textContent =
-                "✕";
 
         }
 
         else {
 
-            fullscreenIcon.textContent =
-                "⛶";
+
+            if (
+                document.exitFullscreen
+            ) {
+
+                await document.exitFullscreen();
+
+            }
+
+
+            else if (
+                document.webkitExitFullscreen
+            ) {
+
+                document.webkitExitFullscreen();
+
+            }
 
         }
 
     }
 
+    catch (error) {
 
-    document.addEventListener(
-        "fullscreenchange",
-        updateFullscreenIcon
-    );
+        console.log(
+            "Fullscreen error:",
+            error
+        );
 
+    }
 
-    document.addEventListener(
-        "webkitfullscreenchange",
-        updateFullscreenIcon
-    );
-
-
-    /* =========================================================
-       KEYBOARD FULLSCREEN
-
-       F11 = Fullscreen
-       ESC = Browser handles exit
-    ========================================================== */
-
-    document.addEventListener(
-        "keydown",
-        function(event) {
-
-            if (
-                event.key === "F11"
-            ) {
-
-                event.preventDefault();
-
-                toggleFullscreen();
-
-            }
-
-        }
-    );
+}
 
 
-    /* =========================================================
-       DOUBLE CLICK CALENDAR
-    ========================================================== */
+/* =========================================================
+   UPDATE FULLSCREEN ICON
+========================================================= */
 
-    calendarFrame.addEventListener(
-        "dblclick",
-        function() {
+function updateFullscreenIcon() {
+
+    const isFullscreen =
+        document.fullscreenElement ||
+        document.webkitFullscreenElement;
+
+
+    if (isFullscreen) {
+
+        fullscreenIcon.textContent =
+            "✕";
+
+    }
+
+    else {
+
+        fullscreenIcon.textContent =
+            "⛶";
+
+    }
+
+}
+
+
+document.addEventListener(
+    "fullscreenchange",
+    updateFullscreenIcon
+);
+
+
+document.addEventListener(
+    "webkitfullscreenchange",
+    updateFullscreenIcon
+);
+
+
+/* =========================================================
+   F11
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "F11") {
+
+            event.preventDefault();
 
             toggleFullscreen();
 
         }
-    );
 
-
-    /* =========================================================
-       FALLBACK TIMER
-
-       If the Calendar does not load within 15 seconds,
-       show the Open Calendar button.
-    ========================================================== */
-
-    setTimeout(
-        function() {
-
-            if (!calendarLoaded) {
-
-                fallback.style.display =
-                    "flex";
-
-            }
-
-        },
-        15000
-    );
-
-
-    /* =========================================================
-       PREVENT PAGE SCROLL
-    ========================================================== */
-
-    document.addEventListener(
-        "touchmove",
-        function(event) {
-
-            if (
-                event.target === document.body
-            ) {
-
-                event.preventDefault();
-
-            }
-
-        },
-        {
-            passive: false
-        }
-    );
-
+    }
+);
 
 </script>
 
