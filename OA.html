@@ -13,7 +13,7 @@
                user-scalable=no,
                viewport-fit=cover">
 
-<title>Calendar of Activities - Monitoring Portal</title>
+<title>Calendar of Activities</title>
 
 <style>
 
@@ -39,24 +39,36 @@ body {
         Helvetica,
         sans-serif;
 
-    background: #eef2f6;
-
-    -webkit-text-size-adjust: 100%;
+    background: #ffffff;
 }
 
 
 /* =========================================================
-   MAIN APPLICATION
+   MAIN PAGE
 ========================================================= */
 
-.app {
-
+.page {
     width: 100%;
     height: 100dvh;
-    min-height: 100vh;
 
-    display: flex;
-    flex-direction: column;
+    position: relative;
+
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   CALENDAR FRAME
+========================================================= */
+
+#calendarFrame {
+
+    width: 100%;
+    height: 100%;
+
+    border: none;
+
+    display: block;
 
     background: #ffffff;
 
@@ -64,137 +76,141 @@ body {
 
 
 /* =========================================================
-   HEADER
+   FLOATING CALENDAR LOGO
 ========================================================= */
 
-.header {
+.calendar-link {
 
-    width: 100%;
-    height: 70px;
-    min-height: 70px;
+    position: fixed;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding:
-        8px 16px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #102a43,
-            #174a78
+    top:
+        max(
+            12px,
+            env(safe-area-inset-top)
         );
 
-    color: #ffffff;
+    right:
+        max(
+            12px,
+            env(safe-area-inset-right)
+        );
 
-    box-shadow:
-        0 2px 10px rgba(0,0,0,.25);
+    width: 52px;
+    height: 52px;
 
-    position: relative;
+    z-index: 9999;
 
-    z-index: 100;
+    cursor: pointer;
 
-}
-
-
-/* =========================================================
-   BRAND
-========================================================= */
-
-.brand {
-
-    display: flex;
-    align-items: center;
-
-    gap: 12px;
-
-    min-width: 0;
+    text-decoration: none;
 
 }
 
 
 /* =========================================================
-   CALENDAR LOGO
+   LOGO
 ========================================================= */
 
 .calendar-logo {
 
-    width: 50px;
-    height: 50px;
-
-    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
 
     position: relative;
 
-    border-radius: 9px;
+    overflow: hidden;
+
+    border-radius: 10px;
 
     background: #ffffff;
 
+    border:
+        1px solid #d6dce3;
+
     box-shadow:
-        0 3px 8px rgba(0,0,0,.30);
+        0 3px 10px rgba(0,0,0,.25);
 
-    overflow: hidden;
-
-}
-
-
-/* Calendar top bar */
-
-.calendar-logo::before {
-
-    content: "";
-
-    position: absolute;
-
-    left: 0;
-    top: 0;
-
-    width: 100%;
-    height: 14px;
-
-    background: #d64545;
-
-}
-
-
-/* Calendar binding rings */
-
-.calendar-logo::after {
-
-    content: "••";
-
-    position: absolute;
-
-    left: 0;
-    right: 0;
-    top: 1px;
-
-    text-align: center;
-
-    color: #ffffff;
-
-    font-size: 13px;
-
-    letter-spacing: 17px;
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
 
 }
 
 
 /* =========================================================
-   CALENDAR LOGO CONTENT
+   TOP RED CALENDAR BAR
 ========================================================= */
 
-.calendar-logo-content {
+.calendar-logo-top {
 
     position: absolute;
 
-    left: 5px;
-    right: 5px;
+    top: 0;
+    left: 0;
 
-    top: 18px;
-    bottom: 5px;
+    width: 100%;
+    height: 14px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #b71c1c,
+            #e53935
+        );
+
+}
+
+
+/* =========================================================
+   CALENDAR RINGS
+========================================================= */
+
+.ring {
+
+    position: absolute;
+
+    top: 5px;
+
+    width: 5px;
+    height: 10px;
+
+    border-radius: 3px;
+
+    background: #ffffff;
+
+    z-index: 3;
+
+}
+
+
+.ring.one {
+    left: 12px;
+}
+
+
+.ring.two {
+    left: 24px;
+}
+
+
+.ring.three {
+    left: 36px;
+}
+
+
+/* =========================================================
+   CALENDAR GRID
+========================================================= */
+
+.calendar-grid {
+
+    position: absolute;
+
+    left: 6px;
+    right: 6px;
+
+    top: 19px;
+    bottom: 6px;
 
     display: grid;
 
@@ -209,18 +225,21 @@ body {
 }
 
 
-/* Calendar squares */
+/* =========================================================
+   CALENDAR CELLS
+========================================================= */
 
-.calendar-square {
+.calendar-cell {
 
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     border-radius: 2px;
 
-    background: #e9f0f7;
+    background: #e9eef4;
 
     color: #173f67;
 
@@ -231,9 +250,7 @@ body {
 }
 
 
-/* Highlight */
-
-.calendar-square.active {
+.calendar-cell.active {
 
     background: #173f67;
 
@@ -243,344 +260,171 @@ body {
 
 
 /* =========================================================
-   BRAND TEXT
+   HOVER
 ========================================================= */
 
-.brand-text {
-
-    min-width: 0;
-
-}
-
-
-.brand-title {
-
-    font-size: 17px;
-
-    font-weight: 800;
-
-    line-height: 1.1;
-
-    letter-spacing: .2px;
-
-    white-space: nowrap;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-
-}
-
-
-.brand-subtitle {
-
-    margin-top: 5px;
-
-    font-size: 11px;
-
-    opacity: .78;
-
-    white-space: nowrap;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-
-}
-
-
-/* =========================================================
-   ACTION BUTTONS
-========================================================= */
-
-.header-actions {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 7px;
-
-    flex-shrink: 0;
-
-}
-
-
-.header-btn {
-
-    height: 40px;
-
-    min-width: 40px;
-
-    padding:
-        0 12px;
-
-    border: none;
-
-    border-radius: 6px;
-
-    background:
-        rgba(255,255,255,.12);
-
-    color: #ffffff;
-
-    cursor: pointer;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-size: 12px;
-
-    font-weight: 700;
-
-    transition:
-        background .2s ease,
-        transform .2s ease;
-
-}
-
-
-.header-btn:hover {
-
-    background: #e67e22;
-
-}
-
-
-.header-btn:active {
+.calendar-link:hover
+.calendar-logo {
 
     transform:
-        scale(.95);
+        translateY(-2px)
+        scale(1.04);
 
-}
-
-
-.icon {
-
-    font-size: 19px;
-
-    line-height: 1;
-
-}
-
-
-.button-text {
-
-    margin-left: 6px;
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.30);
 
 }
 
 
 /* =========================================================
-   CALENDAR CONTENT
+   CLICK
 ========================================================= */
 
-.calendar-container {
+.calendar-link:active
+.calendar-logo {
 
-    position: relative;
-
-    flex: 1;
-
-    width: 100%;
-
-    min-height: 0;
-
-    background: #f4f6f8;
+    transform:
+        scale(.94);
 
 }
 
 
 /* =========================================================
-   MAIN CALENDAR
+   LIVE DOT
 ========================================================= */
 
-#calendarFrame {
+.live-dot {
+
+    position: absolute;
+
+    right: -3px;
+    bottom: -3px;
+
+    width: 13px;
+    height: 13px;
+
+    border-radius: 50%;
+
+    background: #d32f2f;
+
+    border:
+        2px solid #ffffff;
+
+    box-shadow:
+        0 1px 4px rgba(0,0,0,.3);
+
+    z-index: 10;
+
+}
+
+
+.live-dot::after {
+
+    content: "";
+
+    position: absolute;
 
     width: 100%;
     height: 100%;
 
-    display: block;
-
-    border: none;
-
-    background: #ffffff;
-
-}
-
-
-/* =========================================================
-   LOADING SCREEN
-========================================================= */
-
-.loading {
-
-    position: absolute;
-
-    inset: 0;
-
-    z-index: 20;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    background: #f4f6f8;
-
-    color: #173f67;
-
-    transition:
-        opacity .3s ease;
-
-}
-
-
-.loading.hidden {
-
-    opacity: 0;
-
-    pointer-events: none;
-
-}
-
-
-/* Loading calendar logo */
-
-.loading-calendar-logo {
-
-    width: 75px;
-
-    height: 75px;
-
-    position: relative;
-
-    border-radius: 12px;
-
-    background: #ffffff;
-
-    box-shadow:
-        0 4px 15px rgba(0,0,0,.15);
-
-    overflow: hidden;
-
-    margin-bottom: 17px;
-
-}
-
-
-.loading-calendar-logo-top {
-
-    height: 20px;
-
-    width: 100%;
-
-    background: #d64545;
-
-}
-
-
-.loading-calendar-grid {
-
-    position: absolute;
-
-    left: 9px;
-    right: 9px;
-    top: 29px;
-    bottom: 9px;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
-    grid-template-rows:
-        repeat(2, 1fr);
-
-    gap: 5px;
-
-}
-
-
-.loading-calendar-cell {
-
-    background: #e7edf4;
-
-    border-radius: 3px;
-
-}
-
-
-.loading-title {
-
-    font-size: 16px;
-
-    font-weight: 800;
-
-}
-
-
-.loading-text {
-
-    margin-top: 5px;
-
-    font-size: 12px;
-
-    color: #667085;
-
-}
-
-
-.spinner {
-
-    width: 30px;
-
-    height: 30px;
-
-    margin-top: 17px;
-
-    border:
-        3px solid #dce3ea;
-
-    border-top-color:
-        #173f67;
+    left: 0;
+    top: 0;
 
     border-radius: 50%;
 
+    background: #d32f2f;
+
     animation:
-        spin .8s linear infinite;
+        livePulse 1.4s infinite;
+
+    z-index: -1;
 
 }
 
 
-@keyframes spin {
+@keyframes livePulse {
 
-    to {
-        transform: rotate(360deg);
+    0% {
+
+        transform:
+            scale(1);
+
+        opacity: .8;
+
+    }
+
+    70% {
+
+        transform:
+            scale(1.8);
+
+        opacity: 0;
+
+    }
+
+    100% {
+
+        transform:
+            scale(1.8);
+
+        opacity: 0;
+
     }
 
 }
 
 
 /* =========================================================
-   FULLSCREEN
+   TOOLTIP
 ========================================================= */
 
-.app:fullscreen .header {
+.calendar-link::after {
 
-    display: none;
+    content:
+        "Calendar of Activities";
+
+    position: absolute;
+
+    top: 60px;
+    right: 0;
+
+    white-space: nowrap;
+
+    padding:
+        6px
+        9px;
+
+    border-radius: 5px;
+
+    background:
+        rgba(16,42,67,.95);
+
+    color: #ffffff;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transform:
+        translateY(-4px);
+
+    transition:
+        opacity .2s ease,
+        transform .2s ease;
 
 }
 
 
-.app:-webkit-full-screen .header {
+.calendar-link:hover::after {
 
-    display: none;
+    opacity: 1;
+
+    transform:
+        translateY(0);
 
 }
 
@@ -591,87 +435,71 @@ body {
 
 @media (max-width: 600px) {
 
-    .header {
+    .calendar-link {
 
-        height: 60px;
-
-        min-height: 60px;
-
-        padding:
-            6px 10px;
+        width: 46px;
+        height: 46px;
 
     }
 
 
     .calendar-logo {
 
-        width: 43px;
+        width: 46px;
+        height: 46px;
 
-        height: 43px;
+        border-radius: 9px;
 
     }
 
 
-    .calendar-logo::before {
+    .calendar-logo-top {
 
         height: 12px;
 
     }
 
 
-    .calendar-logo-content {
+    .calendar-grid {
 
-        top: 16px;
+        top: 17px;
 
-    }
+        left: 5px;
+        right: 5px;
 
-
-    .brand {
-
-        gap: 9px;
+        bottom: 5px;
 
     }
 
 
-    .brand-title {
+    .ring {
 
-        font-size: 13px;
+        top: 4px;
 
-    }
-
-
-    .brand-subtitle {
-
-        font-size: 9px;
-
-        margin-top: 3px;
+        width: 4px;
+        height: 9px;
 
     }
 
 
-    .header-btn {
-
-        width: 38px;
-
-        min-width: 38px;
-
-        height: 38px;
-
-        padding: 0;
-
+    .ring.one {
+        left: 10px;
     }
 
 
-    .button-text {
+    .ring.two {
+        left: 21px;
+    }
+
+
+    .ring.three {
+        left: 32px;
+    }
+
+
+    .calendar-link::after {
 
         display: none;
-
-    }
-
-
-    .icon {
-
-        font-size: 18px;
 
     }
 
@@ -684,25 +512,21 @@ body {
 
 @media (max-width: 380px) {
 
-    .brand-subtitle {
+    .calendar-link {
 
-        display: none;
+        top: 8px;
+        right: 8px;
 
-    }
-
-
-    .brand-title {
-
-        font-size: 12px;
+        width: 42px;
+        height: 42px;
 
     }
 
 
     .calendar-logo {
 
-        width: 40px;
-
-        height: 40px;
+        width: 42px;
+        height: 42px;
 
     }
 
@@ -716,211 +540,97 @@ body {
 <body>
 
 
-<div class="app" id="app">
+<div class="page">
 
 
     <!-- =====================================================
-         HEADER
+         LIVE CALENDAR LINK
+
+         The icon is the ONLY visible control.
+
+         Clicking it opens the Calendar.
     ====================================================== -->
 
-    <header class="header">
+    <a
+        id="calendarLink"
+        class="calendar-link"
+        href="#"
+        aria-label="Calendar of Activities"
+        title="Calendar of Activities"
+    >
 
 
-        <!-- =================================================
-             CALENDAR LOGO
+        <!-- CALENDAR LOGO -->
 
-             This is a REAL HTML/CSS logo.
-
-             It does NOT contain:
-             - iframe
-             - src URL
-             - external image
-             - clickable link
-        ================================================== -->
-
-        <div class="brand">
+        <div class="calendar-logo">
 
 
-            <div
-                class="calendar-logo"
-                aria-label="Calendar of Activities"
-            >
+            <!-- RED HEADER -->
 
-                <div class="calendar-logo-content">
+            <div class="calendar-logo-top"></div>
 
-                    <div class="calendar-square">
-                        1
-                    </div>
 
-                    <div class="calendar-square">
-                        2
-                    </div>
+            <!-- RINGS -->
 
-                    <div class="calendar-square active">
-                        3
-                    </div>
+            <span class="ring one"></span>
 
-                    <div class="calendar-square">
-                        4
-                    </div>
+            <span class="ring two"></span>
 
-                    <div class="calendar-square">
-                        5
-                    </div>
+            <span class="ring three"></span>
 
-                    <div class="calendar-square">
-                        6
-                    </div>
 
+            <!-- CALENDAR GRID -->
+
+            <div class="calendar-grid">
+
+                <div class="calendar-cell">
+                    1
+                </div>
+
+                <div class="calendar-cell">
+                    2
+                </div>
+
+                <div class="calendar-cell active">
+                    3
+                </div>
+
+                <div class="calendar-cell">
+                    4
+                </div>
+
+                <div class="calendar-cell">
+                    5
+                </div>
+
+                <div class="calendar-cell">
+                    6
                 </div>
 
             </div>
 
 
-            <div class="brand-text">
+            <!-- LIVE INDICATOR -->
 
-                <div class="brand-title">
-
-                    CALENDAR OF ACTIVITIES
-
-                </div>
-
-
-                <div class="brand-subtitle">
-
-                    Records Management Monitoring Portal
-
-                </div>
-
-            </div>
+            <span class="live-dot"></span>
 
 
         </div>
 
 
-        <!-- =================================================
-             ACTIONS
-        ================================================== -->
-
-        <div class="header-actions">
-
-
-            <!-- FULLSCREEN ONLY -->
-
-            <button
-                class="header-btn"
-                onclick="toggleFullscreen()"
-                title="Fullscreen"
-                aria-label="Fullscreen"
-            >
-
-                <span
-                    class="icon"
-                    id="fullscreenIcon"
-                >
-                    ⛶
-                </span>
-
-                <span class="button-text">
-                    FULLSCREEN
-                </span>
-
-            </button>
-
-
-        </div>
-
-
-    </header>
+    </a>
 
 
     <!-- =====================================================
-         CALENDAR
+         CALENDAR CONTENT
     ====================================================== -->
 
-    <main class="calendar-container">
-
-
-        <!-- LOADING -->
-
-        <div
-            class="loading"
-            id="loading"
-        >
-
-
-            <div class="loading-calendar-logo">
-
-                <div
-                    class="loading-calendar-logo-top">
-                </div>
-
-
-                <div class="loading-calendar-grid">
-
-                    <div class="loading-calendar-cell"></div>
-
-                    <div class="loading-calendar-cell"></div>
-
-                    <div class="loading-calendar-cell"></div>
-
-                    <div class="loading-calendar-cell"></div>
-
-                    <div class="loading-calendar-cell"></div>
-
-                    <div class="loading-calendar-cell"></div>
-
-                </div>
-
-            </div>
-
-
-            <div class="loading-title">
-
-                Loading Calendar of Activities
-
-            </div>
-
-
-            <div class="loading-text">
-
-                Please wait...
-
-            </div>
-
-
-            <div class="spinner"></div>
-
-
-        </div>
-
-
-        <!-- =================================================
-             MAIN CALENDAR IFRAME
-
-             The source is used ONLY here.
-
-             It is NOT placed inside the logo.
-             It is NOT clickable through the logo.
-        ================================================== -->
-
-        <iframe
-            id="calendarFrame"
-
-            title="Calendar of Activities"
-
-            allow="
-                fullscreen;
-                clipboard-write
-            "
-
-            allowfullscreen
-
-            loading="eager">
-        </iframe>
-
-
-    </main>
+    <iframe
+        id="calendarFrame"
+        title="Calendar of Activities"
+        allowfullscreen
+        loading="eager">
+    </iframe>
 
 
 </div>
@@ -929,7 +639,7 @@ body {
 <script>
 
 /* =========================================================
-   CALENDAR SOURCE
+   CALENDAR URL
 ========================================================= */
 
 const CALENDAR_URL =
@@ -937,180 +647,45 @@ const CALENDAR_URL =
 
 
 /* =========================================================
-   ELEMENTS
+   MAIN CALENDAR
 ========================================================= */
-
-const app =
-    document.getElementById("app");
 
 const calendarFrame =
-    document.getElementById("calendarFrame");
+    document.getElementById(
+        "calendarFrame"
+    );
 
-const loading =
-    document.getElementById("loading");
-
-const fullscreenIcon =
-    document.getElementById("fullscreenIcon");
-
-
-/* =========================================================
-   LOAD CALENDAR
-========================================================= */
 
 calendarFrame.src =
     CALENDAR_URL;
 
 
 /* =========================================================
-   CALENDAR LOADED
+   CALENDAR LINK
 ========================================================= */
 
-calendarFrame.addEventListener(
-    "load",
-    function() {
+const calendarLink =
+    document.getElementById(
+        "calendarLink"
+    );
 
-        setTimeout(
-            function() {
 
-                loading.classList.add(
-                    "hidden"
-                );
-
-            },
-            400
-        );
-
-    }
-);
+calendarLink.href =
+    CALENDAR_URL;
 
 
 /* =========================================================
-   FULLSCREEN
+   OPEN IN SAME TAB
 ========================================================= */
 
-async function toggleFullscreen() {
-
-    const isFullscreen =
-        document.fullscreenElement ||
-        document.webkitFullscreenElement;
-
-
-    try {
-
-        if (!isFullscreen) {
-
-
-            if (
-                app.requestFullscreen
-            ) {
-
-                await app.requestFullscreen();
-
-            }
-
-
-            else if (
-                app.webkitRequestFullscreen
-            ) {
-
-                app.webkitRequestFullscreen();
-
-            }
-
-
-        }
-
-        else {
-
-
-            if (
-                document.exitFullscreen
-            ) {
-
-                await document.exitFullscreen();
-
-            }
-
-
-            else if (
-                document.webkitExitFullscreen
-            ) {
-
-                document.webkitExitFullscreen();
-
-            }
-
-        }
-
-    }
-
-    catch (error) {
-
-        console.log(
-            "Fullscreen error:",
-            error
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   UPDATE FULLSCREEN ICON
-========================================================= */
-
-function updateFullscreenIcon() {
-
-    const isFullscreen =
-        document.fullscreenElement ||
-        document.webkitFullscreenElement;
-
-
-    if (isFullscreen) {
-
-        fullscreenIcon.textContent =
-            "✕";
-
-    }
-
-    else {
-
-        fullscreenIcon.textContent =
-            "⛶";
-
-    }
-
-}
-
-
-document.addEventListener(
-    "fullscreenchange",
-    updateFullscreenIcon
-);
-
-
-document.addEventListener(
-    "webkitfullscreenchange",
-    updateFullscreenIcon
-);
-
-
-/* =========================================================
-   F11
-========================================================= */
-
-document.addEventListener(
-    "keydown",
+calendarLink.addEventListener(
+    "click",
     function(event) {
 
-        if (event.key === "F11") {
+        event.preventDefault();
 
-            event.preventDefault();
-
-            toggleFullscreen();
-
-        }
+        window.location.href =
+            CALENDAR_URL;
 
     }
 );
