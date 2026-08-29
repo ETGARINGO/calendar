@@ -1,699 +1,140 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width,
-               initial-scale=1.0,
-               maximum-scale=1.0,
-               user-scalable=no,
-               viewport-fit=cover">
-
-<title>Calendar of Activities</title>
-
-<style>
-
-/* =========================================================
-   RESET
-========================================================= */
-
-* {
-    box-sizing: border-box;
-}
-
-html,
-body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-
-    overflow: hidden;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    background: #ffffff;
-}
-
-
-/* =========================================================
-   MAIN PAGE
-========================================================= */
-
-.page {
-    width: 100%;
-    height: 100dvh;
-
-    position: relative;
-
-    background: #ffffff;
-}
-
-
-/* =========================================================
-   CALENDAR FRAME
-========================================================= */
-
-#calendarFrame {
-
-    width: 100%;
-    height: 100%;
-
-    border: none;
-
-    display: block;
-
-    background: #ffffff;
-
-}
-
-
-/* =========================================================
-   FLOATING CALENDAR LOGO
-========================================================= */
-
-.calendar-link {
-
-    position: fixed;
-
-    top:
-        max(
-            12px,
-            env(safe-area-inset-top)
-        );
-
-    right:
-        max(
-            12px,
-            env(safe-area-inset-right)
-        );
-
-    width: 52px;
-    height: 52px;
-
-    z-index: 9999;
-
-    cursor: pointer;
-
-    text-decoration: none;
-
-}
-
-
-/* =========================================================
-   LOGO
-========================================================= */
-
-.calendar-logo {
-
-    width: 52px;
-    height: 52px;
-
-    position: relative;
-
-    overflow: hidden;
-
-    border-radius: 10px;
-
-    background: #ffffff;
-
-    border:
-        1px solid #d6dce3;
-
-    box-shadow:
-        0 3px 10px rgba(0,0,0,.25);
-
-    transition:
-        transform .2s ease,
-        box-shadow .2s ease;
-
-}
-
-
-/* =========================================================
-   TOP RED CALENDAR BAR
-========================================================= */
-
-.calendar-logo-top {
-
-    position: absolute;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 14px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #b71c1c,
-            #e53935
-        );
-
-}
-
-
-/* =========================================================
-   CALENDAR RINGS
-========================================================= */
-
-.ring {
-
-    position: absolute;
-
-    top: 5px;
-
-    width: 5px;
-    height: 10px;
-
-    border-radius: 3px;
-
-    background: #ffffff;
-
-    z-index: 3;
-
-}
-
-
-.ring.one {
-    left: 12px;
-}
-
-
-.ring.two {
-    left: 24px;
-}
-
-
-.ring.three {
-    left: 36px;
-}
-
-
-/* =========================================================
-   CALENDAR GRID
-========================================================= */
-
-.calendar-grid {
-
-    position: absolute;
-
-    left: 6px;
-    right: 6px;
-
-    top: 19px;
-    bottom: 6px;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
-    grid-template-rows:
-        repeat(2, 1fr);
-
-    gap: 3px;
-
-}
-
-
-/* =========================================================
-   CALENDAR CELLS
-========================================================= */
-
-.calendar-cell {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    border-radius: 2px;
-
-    background: #e9eef4;
-
-    color: #173f67;
-
-    font-size: 7px;
-
-    font-weight: 800;
-
-}
-
-
-.calendar-cell.active {
-
-    background: #173f67;
-
-    color: #ffffff;
-
-}
-
-
-/* =========================================================
-   HOVER
-========================================================= */
-
-.calendar-link:hover
-.calendar-logo {
-
-    transform:
-        translateY(-2px)
-        scale(1.04);
-
-    box-shadow:
-        0 5px 15px rgba(0,0,0,.30);
-
-}
-
-
-/* =========================================================
-   CLICK
-========================================================= */
-
-.calendar-link:active
-.calendar-logo {
-
-    transform:
-        scale(.94);
-
-}
-
-
-/* =========================================================
-   LIVE DOT
-========================================================= */
-
-.live-dot {
-
-    position: absolute;
-
-    right: -3px;
-    bottom: -3px;
-
-    width: 13px;
-    height: 13px;
-
-    border-radius: 50%;
-
-    background: #d32f2f;
-
-    border:
-        2px solid #ffffff;
-
-    box-shadow:
-        0 1px 4px rgba(0,0,0,.3);
-
-    z-index: 10;
-
-}
-
-
-.live-dot::after {
-
-    content: "";
-
-    position: absolute;
-
-    width: 100%;
-    height: 100%;
-
-    left: 0;
-    top: 0;
-
-    border-radius: 50%;
-
-    background: #d32f2f;
-
-    animation:
-        livePulse 1.4s infinite;
-
-    z-index: -1;
-
-}
-
-
-@keyframes livePulse {
-
-    0% {
-
-        transform:
-            scale(1);
-
-        opacity: .8;
-
-    }
-
-    70% {
-
-        transform:
-            scale(1.8);
-
-        opacity: 0;
-
-    }
-
-    100% {
-
-        transform:
-            scale(1.8);
-
-        opacity: 0;
-
-    }
-
-}
-
-
-/* =========================================================
-   TOOLTIP
-========================================================= */
-
-.calendar-link::after {
-
-    content:
-        "Calendar of Activities";
-
-    position: absolute;
-
-    top: 60px;
-    right: 0;
-
-    white-space: nowrap;
-
-    padding:
-        6px
-        9px;
-
-    border-radius: 5px;
-
-    background:
-        rgba(16,42,67,.95);
-
-    color: #ffffff;
-
-    font-size: 10px;
-
-    font-weight: 700;
-
-    opacity: 0;
-
-    pointer-events: none;
-
-    transform:
-        translateY(-4px);
-
-    transition:
-        opacity .2s ease,
-        transform .2s ease;
-
-}
-
-
-.calendar-link:hover::after {
-
-    opacity: 1;
-
-    transform:
-        translateY(0);
-
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 600px) {
-
-    .calendar-link {
-
-        width: 46px;
-        height: 46px;
-
-    }
-
-
-    .calendar-logo {
-
-        width: 46px;
-        height: 46px;
-
-        border-radius: 9px;
-
-    }
-
-
-    .calendar-logo-top {
-
-        height: 12px;
-
-    }
-
-
-    .calendar-grid {
-
-        top: 17px;
-
-        left: 5px;
-        right: 5px;
-
-        bottom: 5px;
-
-    }
-
-
-    .ring {
-
-        top: 4px;
-
-        width: 4px;
-        height: 9px;
-
-    }
-
-
-    .ring.one {
-        left: 10px;
-    }
-
-
-    .ring.two {
-        left: 21px;
-    }
-
-
-    .ring.three {
-        left: 32px;
-    }
-
-
-    .calendar-link::after {
-
-        display: none;
-
-    }
-
-}
-
-
-/* =========================================================
-   VERY SMALL MOBILE
-========================================================= */
-
-@media (max-width: 380px) {
-
-    .calendar-link {
-
-        top: 8px;
-        right: 8px;
-
-        width: 42px;
-        height: 42px;
-
-    }
-
-
-    .calendar-logo {
-
-        width: 42px;
-        height: 42px;
-
-    }
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+    <link rel="icon" type="image/png" href="NAP-PRO9.png">
+    <link rel="apple-touch-icon" href="NAP-PRO9.png">
+    
+    <title>Calendar of Activities - Monitoring Portal</title>
+    
+    <style>
+        * { box-sizing: border-box; }
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            height: 100%; 
+            width: 100%; 
+            overflow: hidden; 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: #e5e5e5; 
+            -webkit-text-size-adjust: 100%;
+        }
+        
+        .main-container { 
+            height: 100vh; 
+            height: 100dvh; /* Dynamic viewport height for modern mobile browsers & iOS */
+            width: 100vw;
+            position: relative; 
+        }
+        
+        /* Floating Toggle Button */
+        .fs-toggle {
+            position: absolute;
+            top: env(safe-area-inset-top, 15px);
+            right: 15px;
+            z-index: 100;
+            cursor: pointer;
+            background: rgba(26, 37, 47, 0.85);
+            color: white;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            transition: background 0.3s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        .fs-toggle:hover { background: #e67e22; }
+
+        .sheet-container { 
+            height: 100%; 
+            width: 100%; 
+        }
+        
+        iframe { 
+            width: 100%; 
+            height: 100%; 
+            border: none; 
+            display: block; 
+            /* Fixes iOS iframe scrolling/momentum issues */
+            -webkit-overflow-scrolling: touch; 
+        }
+    </style>
 </head>
-
-
 <body>
 
+    <div class="main-container" id="fullscreen-target">
+        <button class="fs-toggle" onclick="toggleFullscreen()">⛶</button>
 
-<div class="page">
-
-
-    <!-- =====================================================
-         LIVE CALENDAR LINK
-
-         The icon is the ONLY visible control.
-
-         Clicking it opens the Calendar.
-    ====================================================== -->
-
-    <a
-        id="calendarLink"
-        class="calendar-link"
-        href="#"
-        aria-label="Calendar of Activities"
-        title="Calendar of Activities"
-    >
-
-
-        <!-- CALENDAR LOGO -->
-
-        <div class="calendar-logo">
-
-
-            <!-- RED HEADER -->
-
-            <div class="calendar-logo-top"></div>
-
-
-            <!-- RINGS -->
-
-            <span class="ring one"></span>
-
-            <span class="ring two"></span>
-
-            <span class="ring three"></span>
-
-
-            <!-- CALENDAR GRID -->
-
-            <div class="calendar-grid">
-
-                <div class="calendar-cell">
-                    1
-                </div>
-
-                <div class="calendar-cell">
-                    2
-                </div>
-
-                <div class="calendar-cell active">
-                    3
-                </div>
-
-                <div class="calendar-cell">
-                    4
-                </div>
-
-                <div class="calendar-cell">
-                    5
-                </div>
-
-                <div class="calendar-cell">
-                    6
-                </div>
-
-            </div>
-
-
-            <!-- LIVE INDICATOR -->
-
-            <span class="live-dot"></span>
-
-
+        <div class="sheet-container">
+            <iframe 
+                src="https://script.google.com/macros/s/AKfycbxNdTbO8o4RlBs_a-iPPi6jfN99vLAOZlWYBDXI80xw-lHWPOVITCzfQNOAR4Uk0AGK/exec"
+                allow="fullscreen; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
         </div>
+    </div>
 
+    <script>
+        // Attempt automatic full-screen entry on first user interaction (since browsers block autoplay full-screen on load)
+        function triggerAutoFullscreen() {
+            const elem = document.getElementById("fullscreen-target");
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen().catch(() => {});
+                } else if (elem.webkitRequestFullscreen) { /* Safari / iOS fallback */
+                    elem.webkitRequestFullscreen();
+                }
+            }
+            // Remove listeners once interaction triggers it
+            window.removeEventListener('click', triggerAutoFullscreen);
+            window.removeEventListener('touchend', triggerAutoFullscreen);
+        }
 
-    </a>
+        window.addEventListener('click', triggerAutoFullscreen);
+        window.addEventListener('touchend', triggerAutoFullscreen);
 
+        function toggleFullscreen() {
+            const elem = document.getElementById("fullscreen-target");
+            const btn = document.querySelector(".fs-toggle");
 
-    <!-- =====================================================
-         CALENDAR CONTENT
-    ====================================================== -->
+            const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
 
-    <iframe
-        id="calendarFrame"
-        title="Calendar of Activities"
-        allowfullscreen
-        loading="eager">
-    </iframe>
+            if (!isFullscreen) {
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen().catch(err => alert(`Error: ${err.message}`));
+                } else if (elem.webkitRequestFullscreen) {
+                    elem.webkitRequestFullscreen();
+                }
+                btn.textContent = "⛶";
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                }
+                btn.textContent = "⛶";
+            }
+        }
 
+        // Sync button label if fullscreen status changes externally (e.g. via ESC key)
+        document.addEventListener("fullscreenchange", updateButtonState);
+        document.addEventListener("webkitfullscreenchange", updateButtonState);
 
-</div>
-
-
-<script>
-
-/* =========================================================
-   CALENDAR URL
-========================================================= */
-
-const CALENDAR_URL =
-    "https://script.google.com/macros/s/AKfycbz4aPCijq1ke_xNN1hr35SpJFVcPmoDh1p77SB4L1hhV5YWf36zHXksU3M1127-sOIc/exec?page=calendar";
-
-
-/* =========================================================
-   MAIN CALENDAR
-========================================================= */
-
-const calendarFrame =
-    document.getElementById(
-        "calendarFrame"
-    );
-
-
-calendarFrame.src =
-    CALENDAR_URL;
-
-
-/* =========================================================
-   CALENDAR LINK
-========================================================= */
-
-const calendarLink =
-    document.getElementById(
-        "calendarLink"
-    );
-
-
-calendarLink.href =
-    CALENDAR_URL;
-
-
-/* =========================================================
-   OPEN IN SAME TAB
-========================================================= */
-
-calendarLink.addEventListener(
-    "click",
-    function(event) {
-
-        event.preventDefault();
-
-        window.location.href =
-            CALENDAR_URL;
-
-    }
-);
-
-</script>
-
-
+        function updateButtonState() {
+            const btn = document.querySelector(".fs-toggle");
+            const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+            if (!isFullscreen) {
+                btn.textContent = "Full View";
+            } else {
+                btn.textContent = "Exit Full View";
+            }
+        }
+    </script>
 </body>
-
 </html>
-```
